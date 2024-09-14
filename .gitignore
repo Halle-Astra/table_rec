@@ -1,0 +1,11 @@
+1
+assets
+ms-swift
+pdf
+pdf.zip
+swift_qwen2-vl
+transformers
+main.py
+sft_only_transformers.py
+train.py
+.idea
