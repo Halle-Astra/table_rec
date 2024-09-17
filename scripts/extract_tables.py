@@ -41,7 +41,7 @@ if __name__ == "__main__":
         png_files = glob.glob(os.path.join(paper_root, 'page_*'))
 
         root_temp, paper_id = os.path.split(paper_root)
-        discipline = os.path.split(root_temp)[0]
+        discipline = os.path.split(root_temp)[-1]
         table_save_root = os.path.join('tables', discipline, paper_id)
         table_end_file = os.path.join(table_save_root, 'end.txt')
         if os.path.exists(table_end_file):
