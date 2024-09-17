@@ -27,7 +27,7 @@ def get_table_infos_from_file(table_grep_path, root='/data-pfs/jd/dataset/DocGen
         for i in range(len(contents)):
             c_splits = contents[i].split()
             file_info = c_splits.pop(0)
-            file_name, line_num = file_info.split(':')
+            file_name, line_num, _ = file_info.split(':')
             file_path = os.path.join(root, file_name)
 
             source_code_string = '{' + ''.join(c_splits) + '}'

@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     table_infos_file = 'assets/table_info.txt'
     if not os.path.exists(table_infos_file):
-        table_original_file = '/data-pfs/jd/datasets/DocGenome/table_retrive.inter.txt'
+        table_original_file = '/data-pfs/jd/dataset/DocGenome/table_retrive.inter.txt'
         from utils.table_explore import get_table_infos_from_file
 
         infos = get_table_infos_from_file(table_original_file)
