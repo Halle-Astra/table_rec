@@ -49,12 +49,13 @@ if __name__ == "__main__":
             continue
 
         if not os.path.exists(table_save_root):
-            os.mkdir(table_save_root)
+            os.makedirs(table_save_root)
 
         end_infos = []
-        for image_fn in png_files:
-            image = np.asarray(Image.open(image_fn))
+        for image_fp in png_files:
+            image = np.asarray(Image.open(image_fp))
             tables, bboxes = table_detector(image)
+            image_fn = os.path.basename(image_fp)
             for i, table in enumerate(tables):
                 table_path = os.path.join(table_save_root, image_fn + '{}.png'.format(i))
                 table.save(table_path)

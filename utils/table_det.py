@@ -169,8 +169,8 @@ def crop_img(input_res, input_pil_img, crop_paste_x=0, crop_paste_y=0):
 
 
 class TableDetector:
-    def __init__(self, weight_path, infer_config_root):
-        self.device = 'cuda'
+    def __init__(self, weight_path, infer_config_root, device: int=0):
+        self.device = 'cuda' + ':' + str(device)
         self.layout_model = Layoutlmv3_Predictor(
             weight_path,
             str(os.path.join(infer_config_root, "layoutlmv3_base_inference.yaml")),
