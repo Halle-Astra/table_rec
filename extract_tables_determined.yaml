@@ -1,0 +1,190 @@
+environment:
+  add_capabilities:
+    - IPC_LOCK
+  drop_capabilities: []
+  environment_variables:
+    cpu: []
+    cuda: []
+    rocm: []
+  force_pull_image: false
+  image:
+    cpu: harbor.bk8s/library/mamba:v2
+    cuda: harbor.bk8s/docker-io/determinedai/environments:cuda-11.3-pytorch-1.12-tf-2.11-gpu-748dda4
+  pod_spec:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      creationTimestamp: null
+      labels:
+        customLabel: gpu-label
+    spec:
+      containers:
+        - env:
+            # - name: MODELSCOPE_CACHE
+            #   value: /data-pfs/jd/cache/modelscope
+            - name: no_proxy
+              value: 192.168.77.42
+            - name: NCCL_TOPO_FILE
+              value: /root/topo.xml
+            - name: CUDA_VISIBLE_DEVICES
+              value: 0,1,2,3,4,5,6,7
+            - name: CUDA_DEVICE_ORDER
+              value: PCI_BUS_ID
+            - name: NCCL_DEBUG
+              value: TRACE
+            - name: NCCL_IB_DISABLE
+              value: '0'
+            - name: NCCL_SOCKET_IFNAME
+              value: eth0
+            - name: NCCL_IB_HCA
+              value: mlx5_0,mlx5_1,mlx5_2,mlx5_3
+            - name: NCCL_IB_GID_INDEX
+              value: '3'
+            - name: NCCL_IB_TC
+              value: '184'
+            - name: NCCL_IB_PCI_RELAXED_ORDERING
+              value: '1'
+            - name: NCCL_NET_GDR_LEVEL
+              value: '1'
+            - name: NCCL_NET_GDR_READ
+              value: '1'
+            - name: UCX_IB_PCI_RELAXED_ORDERING
+              value: 'on'
+            - name: NCCL_IB_TIMEOUT
+              value: '23'
+            - name: NCCL_IB_RETRY_CNT
+              value: '7'
+            - name: NCCL_SOCKET_NTHREADS
+              value: '4'
+            - name: NCCL_NVLS_ENABLE
+              value: '0'
+            - name: NCCL_P2P_LEVEL
+              value: '1'
+            - name: TORCH_DISTRIBUTED_DEBUG
+              value: DETAIL
+            - name: GLOO_SOCKET_IFNAME
+              value: eth0
+            - name: HF_HOME
+              value: /data-pfs/jd/cache/huggingface
+          name: determined-container
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /data-pfs
+              name: pfs
+            # - mountPath: /root/.cache
+            #   name: pfs
+            #   subPath: jd/cache
+            # - mountPath: /env
+            #   name: env
+            # - mountPath: /opt/conda
+            #   name: env
+            #   subPath: base-envs/opt-conda-0612-new
+            - mountPath: /opt/conda/pkgs
+              name: pfs
+              subPath: jd/cache/conda/pkgs
+            - mountPath: /root/.cache/pip
+              name: pfs
+              subPath: jd/cache/pip
+            - mountPath: /root/topo.xml
+              name: nccl-topo
+              subPath: topo.xml
+#            - mountPath: /usr/lib/x86_64-linux-gnu
+#              name: usr
+#              subPath: lib/x86_64-linux-gnu/
+      hostIPC: true
+      volumes:
+        - hostPath:
+            path: /storage-pfs
+            type: Directory
+          name: pfs
+#        - hostPath:
+#            path: /usr
+#            type: Directory
+#          name: usr
+        - hostPath:
+            path: /data
+            type: Directory
+          name: data
+        - hostPath:
+            path: /env
+          name: env
+        - configMap:
+            items:
+              - key: nccl-topo.xml
+                path: topo.xml
+            name: nccl-topo
+          name: nccl-topo
+    status: {}
+  ports: {}
+  proxy_ports: []
+project: Uncategorized
+workspace: Uncategorized
+bind_mounts: []
+checkpoint_policy: best
+checkpoint_storage:
+  host_path: /tmp/checkpoints
+  propagation: rprivate
+  save_experiment_best: 0
+  save_trial_best: 1
+  save_trial_latest: 1
+  storage_path: null
+  type: shared_fs
+data: {}
+debug: true
+description: null
+entrypoint: bash /data-pfs/jd/programs/Table_Rec/run.sh
+labels: []
+log_policies: []
+max_restarts: 5
+min_checkpoint_period:
+  batches: 0
+min_validation_period:
+  batches: 0
+name: cpt_jdev
+optimizations:
+  aggregation_frequency: 1
+  auto_tune_tensor_fusion: false
+  average_aggregated_gradients: true
+  average_training_metrics: true
+  grad_updates_size_file: null
+  gradient_compression: false
+  mixed_precision: O0
+  tensor_fusion_cycle_time: 1
+  tensor_fusion_threshold: 64
+pbs: {}
+perform_initial_validation: false
+profiling:
+  begin_on_batch: 0
+  enabled: false
+  end_after_batch: null
+  sync_timings: true
+records_per_epoch: 0
+reproducibility:
+  experiment_seed: 1725526699
+resources:
+  devices:
+    - container_path: /dev/infiniband/
+      host_path: /dev/infiniband/
+      mode: mrw
+  is_single_node: null
+  max_slots: null
+  native_parallel: false
+  priority: null
+  resource_pool: default
+  shm_size: null
+  slots_per_trial: 8
+  weight: 1
+scheduling_unit: 100
+searcher:
+  max_length:
+    epochs: 1
+  metric: validation_loss
+  name: single
+  smaller_is_better: true
+  source_checkpoint_uuid: null
+  source_trial_id: null
+slurm: {}
+hyperparameters: {}
+
