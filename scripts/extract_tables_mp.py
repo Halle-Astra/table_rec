@@ -16,7 +16,7 @@ import multiprocessing
 from multiprocessing import Pool, Process, Queue
 import tqdm
 
-n_proc = 40
+n_proc = 500
 
 
 @dataclass
@@ -103,7 +103,7 @@ if __name__ == "__main__":
         table_detector = TableDetector(
             'assets/layout_models/model_final.pth',
             'assets/layout_models',
-            i%8
+            i%4
         )
         tds.append(table_detector)
     # pool = Pool(100)
@@ -113,6 +113,7 @@ if __name__ == "__main__":
     p = context.Process(target=watch_func, args=(message_queue, len(infos)))
     p.start()
     workers = []
+    # infos = infos[::-1]
     for i, table_info in enumerate(infos):
         # pool.apply_async(process_func, args=(
         #     table_info,
