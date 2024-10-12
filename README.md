@@ -62,4 +62,12 @@ pip install magic-pdf[full]==0.7.0b1 --extra-index-url https://wheels.myhloli.co
 apt-get update && apt-get install libgl1
 ```
 
+## assets
 
+### table_info.txt
+
+Please read the `utils/io.py/read_table_infos` to learn the usage.
+
+### unused_contents_20241007.jsonl
+
+Please read the relative part in `test.ipynb`

@@ -1,5 +1,8 @@
 1
 assets/layout_models/model_final.pth
+assets/table_info.txt
+assets/unused_contents_20241007.jsonl
+test.ipynb
 ms-swift
 pdf
 pdf.zip
@@ -9,3 +12,4 @@ main.py
 sft_only_transformers.py
 train.py
 .idea
+.ipynb_checkpoints

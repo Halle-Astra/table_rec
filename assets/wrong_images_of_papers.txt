@@ -1,0 +1,1 @@
+{"file": "/data-pfs/jd/dataset/DocGenome/extracted/cs.LG/2109.05013/page_0006.jpg", "error": "cannot identify image file '/data-pfs/jd/dataset/DocGenome/extracted/cs.LG/2109.05013/page_0006.jpg'"}

@@ -1,0 +1,62 @@
+bind_mounts: null
+debug: false
+description: jdev
+entrypoint: null
+environment:
+  add_capabilities:
+    - IPC_LOCK
+  drop_capabilities: null
+  environment_variables: {}
+  force_pull_image: false
+  image:
+    cpu: determinedai/environments:py-3.9-pytorch-1.12-tf-2.11-cpu-748dda4
+    cuda: harbor.bk8s/docker-io/halleastra/det_cuda_swift_transformers_4.45.0.dev0_jupyter_cp310
+  pod_spec:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      creationTimestamp: null
+      labels:
+        customLabel: gpu-label
+    spec:
+      containers:
+        - name: determined-container
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /data-pfs
+              name: pfs
+            - mountPath: /root
+              name: env
+              subPath: home/rok
+      volumes:
+        - hostPath:
+            path: /dipu-data
+            type: Directory
+          name: data
+        - hostPath:
+            path: /storage-pfs
+            type: Directory
+          name: pfs
+        - hostPath:
+            path: /env
+          name: env
+    status: {}
+  ports: null
+  proxy_ports: null
+idle_timeout: null
+notebook_idle_type: kernels_or_terminals
+pbs: {}
+resources:
+  devices:
+    - container_path: /dev/infiniband/
+      host_path: /dev/infiniband/
+      mode: mrw
+  is_single_node: null
+  resource_pool: default
+  slots: 8
+  weight: 1
+  shm_size: 64G
+slurm: {}
+work_dir: null
